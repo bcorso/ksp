@@ -70,11 +70,10 @@ class KSAnnotationImpl private constructor(
         val presentArgs = annotationApplication.arguments.map {
             KSValueArgumentImpl.getCached(it, this, origin)
         }
-        val presentNames = presentArgs.mapNotNull { it.name?.asString() }
-        val absentArgs = defaultArguments.filter {
-            it.name?.asString() !in presentNames
-        }
-        presentArgs + absentArgs
+        val presentNames = presentArgs.mapNotNullTo(mutableSetOf()) { it.name }
+        presentArgs + defaultArguments
+            .filter { it.name != null }
+            .filter { it.name !in presentNames }
     }
 
     @OptIn(KaImplementationDetail::class)

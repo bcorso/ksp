@@ -64,7 +64,7 @@ class KSClassDeclarationImpl private constructor(internal val ktClassOrObjectSym
             null
         } else {
             analyze {
-                ktClassOrObjectSymbol.memberScope.constructors.singleOrNull { it.isPrimary }?.let {
+                ktClassOrObjectSymbol.declaredMemberScope.constructors.singleOrNull { it.isPrimary }?.let {
                     KSFunctionDeclarationImpl.getCached(it)
                 }
             }
